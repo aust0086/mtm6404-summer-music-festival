@@ -1,4 +1,5 @@
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>React Components Assignment</title>
@@ -30,6 +31,7 @@
     }
   </style>
 </head>
+
 <body>
   <div id="root"></div>
 
@@ -85,30 +87,33 @@
     // =========================
     const BandListItem = (props) => {
 
+      const { band } = props;
+
       // TODO: get band from props
 
       return (
         <li>
-          {/* TODO: show band name */}
+          <span>{band.bandName}, </span>
 
-          {/* TODO: show genre */}
+          <span>{band.genre}, </span>
 
-          {/* TODO: show stage */}
+          <span>{band.stage}, </span>
 
-          {/* TODO: show total songs */}
+          <span>{band.songs.length} songs </span>
 
-          {/* TODO: CONDITIONAL
-              If band.isSoldOut is true,
-              show "SOLD OUT"
-          */}
+          {band.isSoldOut && <span className="soldout">SOLD OUT</span>}
 
-          {/* TODO: CONDITIONAL
-              If songs exist:
-              render a <ul> of songs
-              If no songs:
-              show "No setlist"
-          */}
-
+          {
+            band.songs.length > 0 ? (
+              <ul className="setlist">
+                {band.songs.map((song, index) => (
+                  <li key={index}>{song}</li>
+                ))}
+              </ul>
+            ) : (
+              <p>No setlist</p>
+            )
+          }
         </li>
       );
     };
@@ -121,13 +126,12 @@
     // It should map over bands
     // =========================
     const BandList = (props) => {
-
+      const { bands } = props;
       return (
         <ul>
-          {/* TODO: map over props.bands */}
-          {/* render BandListItem */}
-          {/* pass band as prop */}
-          {/* add a key */}
+          {bands.map((band, index) => (
+            <BandListItem band={band} key={index} />
+          ))}
         </ul>
       );
     };
@@ -137,17 +141,17 @@
     // TODO 3
     // App component
     // =========================
-    function App() {
+    const App = () => {
       return (
         <div className="app">
           <h1>{siteName}</h1>
-
-          {/* TODO: CONDITIONAL RENDERING
-              If there are bands:
-              show BandList
-              otherwise show:
-              "No bands scheduled"
-          */}
+          {
+            bandsData.length > 0 ? (
+              <BandList bands={bandsData} />
+            ) : (
+              <p>No Bands Today! :(</p>
+            )
+          }
 
         </div>
       );
@@ -156,4 +160,5 @@
     root.render(<App />);
   </script>
 </body>
+
 </html>
